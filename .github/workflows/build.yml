@@ -52,12 +52,15 @@ jobs:
             curl --fail -s -o "data/$name" \
               "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/$name"
       
-            grep '^include:' "data/$name" \
-              | cut -d':' -f2 \
-              | tr -d '[:space:]' \
-              | while read -r inc; do
-                  fetch_list "$inc"
-                done
+            readarray -t includes < <(
+              grep '^include:' "data/$name" \
+                | cut -d':' -f2 \
+                | tr -d '[:space:]' \
+                || true
+            )
+            for inc in "${includes[@]}"; do
+              fetch_list "$inc"
+            done
           }
       
           for root in category-ru apple private google-play; do
