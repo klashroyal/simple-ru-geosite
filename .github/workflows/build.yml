@@ -38,16 +38,27 @@ jobs:
 
       - name: Download data lists
         run: |
+          set -euo pipefail
           mkdir -p data
           curl --fail -s -o data/category-ru \
             https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/category-ru
+          curl --fail -s -o data/apple \
+            https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/apple
           curl --fail -s -o data/private \
-            https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/private || true
+            https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/private
+          curl --fail -s -o data/google-play \
+            https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/google-play
           grep '^include:' data/category-ru \
             | cut -d':' -f2 \
             | while read -r f; do
                 curl --fail -s -o data/"$f" \
-                  https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/"$f" || true
+                  https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/"$f"
+              done
+          grep '^include:' data/apple \
+            | cut -d':' -f2 \
+            | while read -r f; do
+                curl --fail -s -o data/"$f" \
+                  https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/"$f"
               done
 
       - name: Build Russia blocklist
