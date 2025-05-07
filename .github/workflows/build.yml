@@ -37,29 +37,32 @@ jobs:
           echo "TAG_NAME=$(date +%Y%m%d%H%M%S)" >> $GITHUB_ENV
 
       - name: Download data lists
+        shell: bash
         run: |
           set -euo pipefail
+      
           mkdir -p data
-          curl --fail -s -o data/category-ru \
-            https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/category-ru
-          curl --fail -s -o data/apple \
-            https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/apple
-          curl --fail -s -o data/private \
-            https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/private
-          curl --fail -s -o data/google-play \
-            https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/google-play
-          grep '^include:' data/category-ru \
-            | cut -d':' -f2 \
-            | while read -r f; do
-                curl --fail -s -o data/"$f" \
-                  https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/"$f"
-              done
-          grep '^include:' data/apple \
-            | cut -d':' -f2 \
-            | while read -r f; do
-                curl --fail -s -o data/"$f" \
-                  https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/"$f"
-              done
+          declare -A fetched
+      
+          fetch_list() {
+            local name="$1"
+            [[ "${fetched[$name]:-}" == "1" ]] && return
+            fetched[$name]=1
+      
+            curl --fail -s -o "data/$name" \
+              "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/$name"
+      
+            grep '^include:' "data/$name" \
+              | cut -d':' -f2 \
+              | tr -d '[:space:]' \
+              | while read -r inc; do
+                  fetch_list "$inc"
+                done
+          }
+      
+          for root in category-ru apple private google-play; do
+            fetch_list "$root"
+          done
 
       - name: Build Russia blocklist
         run: |
