@@ -40,33 +40,34 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-      
           mkdir -p data
           declare -A fetched
-      
+
           fetch_list() {
             local name="$1"
             [[ "${fetched[$name]:-}" == "1" ]] && return
             fetched[$name]=1
-      
-            curl --fail -s -o "data/$name" \
-              "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/$name"
-      
-            readarray -t includes < <(
-              grep '^include:' "data/$name" \
-                | cut -d':' -f2 \
-                | tr -d '[:space:]' \
-                || true
-            )
-            for inc in "${includes[@]}"; do
-              fetch_list "$inc"
-            done
+            if curl --fail -s -o "data/$name" \
+              "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/$name"; then
+              readarray -t includes < <(
+                grep '^include:' "data/$name" \
+                  | cut -d':' -f2- \
+                  | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' \
+                  || true
+              )
+              for inc in "${includes[@]}"; do
+                if [[ -n "$inc" ]]; then
+                  fetch_list "$inc"
+                fi
+              done
+            else
+              exit 1
+            fi
           }
-      
           for root in category-ru apple private google-play; do
             fetch_list "$root"
           done
-
+          
       - name: Build Russia blocklist
         run: |
           mkdir -p filtered
