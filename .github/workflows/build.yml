@@ -69,6 +69,10 @@ jobs:
             fetch_list "$root"
           done
           
+      - name: Copy Twitch no ads list
+        run: |
+          cp -r code/data/twitch data/twitch || true
+
       - name: Build Russia blocklist
         run: |
           mkdir -p filtered
@@ -84,7 +88,7 @@ jobs:
           go run main.go \
             --datapath=../data \
             --outputdir=../release \
-            --exportlists=category-ban-ru,category-ru,private
+            --exportlists=category-ban-ru,category-ru,twitchprivate
           cd ..
           ls -R
 
