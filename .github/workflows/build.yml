@@ -19,7 +19,7 @@ jobs:
     env:
       ANTIFILTER_DOWNLOAD: https://community.antifilter.download/list/domains.lst
       REFILTER_ALL: https://raw.githubusercontent.com/1andrevich/Re-filter-lists/refs/heads/main/domains_all.lst
-      CUSTOM_DOMAINS: "jut.su"
+      CUSTOM_DOMAINS: "jut.su habr.com"
 
     steps:
       - name: Checkout codebase
