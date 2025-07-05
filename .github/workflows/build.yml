@@ -88,7 +88,7 @@ jobs:
           go run main.go \
             --datapath=../data \
             --outputdir=../release \
-            --exportlists=category-ban-ru,category-ru,twitchprivate
+            --exportlists=category-ban-ru,category-ru,twitch,private
           cd ..
           ls -R
 
