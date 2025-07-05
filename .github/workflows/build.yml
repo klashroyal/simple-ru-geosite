@@ -65,7 +65,7 @@ jobs:
               exit 1
             fi
           }
-          for root in category-ru apple private google-play; do
+          for root in category-ru apple private google-play youtube; do
             fetch_list "$root"
           done
           
@@ -88,7 +88,7 @@ jobs:
           go run main.go \
             --datapath=../data \
             --outputdir=../release \
-            --exportlists=category-ban-ru,category-ru,twitch,private
+            --exportlists=category-ban-ru,category-ru,twitch,youtube,private
           cd ..
           ls -R
 
