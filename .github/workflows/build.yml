@@ -72,6 +72,11 @@ jobs:
       - name: Copy Twitch no ads list
         run: |
           cp -r code/data/twitch data/twitch || true
+          cp -r code/data/category-banks-ru data/category-banks-ru || true
+          cp -r code/data/epicgames data/epicgames || true
+          cp -r code/data/riot data/riot || true
+          cp -r code/data/steam data/steam || true
+          cp -r code/data/xbox data/xbox || true
 
       - name: Build Russia blocklist
         run: |
@@ -88,7 +93,7 @@ jobs:
           go run main.go \
             --datapath=../data \
             --outputdir=../release \
-            --exportlists=category-ban-ru,category-ru,twitch,youtube,private
+            --exportlists=category-ban-ru,category-ru,twitch,youtube,private,category-banks-ru,epicgames,riot,steam,xbox
           cd ..
           ls -R
 
