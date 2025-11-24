@@ -65,7 +65,7 @@ jobs:
               exit 1
             fi
           }
-          for root in category-ru apple private google-play youtube; do
+          for root in category-ru private google-play youtube; do
             fetch_list "$root"
           done
           
@@ -78,6 +78,7 @@ jobs:
           cp -r code/data/steam data/steam || true
           cp -r code/data/xbox data/xbox || true
           cp -r code/data/tiktok data/tiktok || true
+          cp -r code/data/apple data/apple || true
 
       - name: Build Russia blocklist
         run: |
@@ -94,7 +95,7 @@ jobs:
           go run main.go \
             --datapath=../data \
             --outputdir=../release \
-            --exportlists=category-ban-ru,category-ru,twitch,youtube,private,category-banks-ru,epicgames,riot,steam,xbox,tiktok
+            --exportlists=category-ban-ru,category-ru,twitch,youtube,private,category-banks-ru,epicgames,riot,steam,xbox,tiktok,apple
           cd ..
           ls -R
 
