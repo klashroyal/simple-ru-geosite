@@ -72,6 +72,7 @@ jobs:
       - name: Copy Twitch no ads list
         run: |
           cp -r code/data/twitch data/twitch || true
+          cp -r code/data/twitch-ads data/twitch-ads || true
           cp -r code/data/category-banks-ru data/category-banks-ru || true
           cp -r code/data/epicgames data/epicgames || true
           cp -r code/data/riot data/riot || true
@@ -105,7 +106,7 @@ jobs:
           go run main.go \
             --datapath=../data \
             --outputdir=../release \
-            --exportlists=twitch,youtube,private,category-banks-ru,epicgames,riot,steam,xbox,tiktok,apple,category-rkn,category-ru-roscom,custom
+            --exportlists=twitch,twitch-ads,youtube,private,category-banks-ru,epicgames,riot,steam,xbox,tiktok,apple,category-rkn,category-ru-roscom,custom
           cd ..
           ls -R
 
