@@ -73,13 +73,14 @@ jobs:
         run: |
           cp -r code/data/twitch data/twitch || true
           cp -r code/data/twitch-ads data/twitch-ads || true
-          cp -r code/data/category-banks-ru data/category-banks-ru || true
+          cp -r code/data/microsoft data/microsoft || true
           cp -r code/data/epicgames data/epicgames || true
           cp -r code/data/riot data/riot || true
           cp -r code/data/steam data/steam || true
           cp -r code/data/xbox data/xbox || true
           cp -r code/data/tiktok data/tiktok || true
           cp -r code/data/apple data/apple || true
+          cp -r code/data/category-banks-ru data/category-banks-ru || true
           cp -r code/data/category-ru-roscom data/category-ru-roscom || true
           cp -r code/data/category-rkn data/category-rkn || true
           cp -r code/data/custom data/custom || true
@@ -106,7 +107,7 @@ jobs:
           go run main.go \
             --datapath=../data \
             --outputdir=../release \
-            --exportlists=twitch,twitch-ads,youtube,private,category-banks-ru,epicgames,riot,steam,xbox,tiktok,apple,category-rkn,category-ru-roscom,custom
+            --exportlists=twitch,twitch-ads,youtube,private,category-banks-ru,epicgames,riot,steam,xbox,tiktok,apple,microsoft,category-rkn,category-ru-roscom,custom
           cd ..
           ls -R
 
