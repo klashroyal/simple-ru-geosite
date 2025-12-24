@@ -90,6 +90,13 @@ jobs:
           curl -sSL "$REFILTER_ALL" -o filtered/refilter.lst
           (cat filtered/antifilter.lst filtered/refilter.lst | grep -E '\.(ru|su|xn--80adxhks|xn--80asehdb|xn--80aswg|xn--c1avg|xn--d1acj3b|xn--p1acf|xn--p1ai)$'; echo -e "${CUSTOM_DOMAINS// /\\n}") | sort | uniq > data/category-ban-ru
 
+      - name: Disable category-ru and category-ban-ru
+        shell: bash
+        run: |
+          set -euo pipefail
+          : > data/category-ru
+          : > data/category-ban-ru
+
       - name: Build geosite.dat
         run: |
           mkdir -p release
