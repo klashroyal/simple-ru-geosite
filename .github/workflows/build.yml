@@ -98,7 +98,7 @@ jobs:
           go run main.go \
             --datapath=../data \
             --outputdir=../release \
-            --exportlists=category-ban-ru,category-ru,twitch,youtube,private,category-banks-ru,epicgames,riot,steam,xbox,tiktok,apple,category-rkn,category-ru-roscom,custom
+            --exportlists=twitch,youtube,private,category-banks-ru,epicgames,riot,steam,xbox,tiktok,apple,category-rkn,category-ru-roscom,custom
           cd ..
           ls -R
 
