@@ -79,8 +79,8 @@ jobs:
           cp -r code/data/xbox data/xbox || true
           cp -r code/data/tiktok data/tiktok || true
           cp -r code/data/apple data/apple || true
-          cp -r code/data/custom data/category-ru-roscom || true
-          cp -r code/data/custom data/category-rkn || true
+          cp -r code/data/category-ru-roscom data/category-ru-roscom || true
+          cp -r code/data/category-rkn data/category-rkn || true
           cp -r code/data/custom data/custom || true
 
       - name: Build Russia blocklist
