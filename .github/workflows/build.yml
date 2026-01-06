@@ -16,6 +16,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    env:
+      ANTIFILTER_DOWNLOAD: https://community.antifilter.download/list/domains.lst
+      REFILTER_ALL: https://raw.githubusercontent.com/1andrevich/Re-filter-lists/refs/heads/main/domains_all.lst
+      CUSTOM_DOMAINS: "jut.su habr.com 4pda.to"
+
     steps:
       - name: Checkout codebase
         uses: actions/checkout@v4
@@ -60,7 +65,7 @@ jobs:
               exit 1
             fi
           }
-          for root in private google-play youtube; do
+          for root in category-ru private google-play youtube; do
             fetch_list "$root"
           done
           
@@ -76,9 +81,14 @@ jobs:
           cp -r code/data/tiktok data/tiktok || true
           cp -r code/data/apple data/apple || true
           cp -r code/data/category-banks-ru data/category-banks-ru || true
-          cp -r code/data/category-ru data/category-ru || true
-          cp -r code/data/category-rkn data/category-rkn || true
           cp -r code/data/custom data/custom || true
+
+      - name: Build Russia blocklist
+        run: |
+          mkdir -p filtered
+          curl -sSL "$ANTIFILTER_DOWNLOAD" -o filtered/antifilter.lst
+          curl -sSL "$REFILTER_ALL" -o filtered/refilter.lst
+          (cat filtered/antifilter.lst filtered/refilter.lst | grep -E '\.(ru|su|xn--80adxhks|xn--80asehdb|xn--80aswg|xn--c1avg|xn--d1acj3b|xn--p1acf|xn--p1ai)$'; echo -e "${CUSTOM_DOMAINS// /\\n}") | sort | uniq > data/category-ban-ru
 
       - name: Build geosite.dat
         run: |
@@ -88,7 +98,7 @@ jobs:
           go run main.go \
             --datapath=../data \
             --outputdir=../release \
-            --exportlists=twitch,twitch-ads,youtube,private,category-banks-ru,epicgames,riot,steam,xbox,tiktok,apple,microsoft,category-rkn,category-ru,custom
+            --exportlists=category-ban-ru,category-ru,twitch,youtube,private,category-banks-ru,epicgames,riot,steam,xbox,tiktok,apple,microsoft,custom
           cd ..
           ls -R
 
