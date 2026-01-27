@@ -82,6 +82,7 @@ jobs:
           cp -r code/data/apple data/apple || true
           cp -r code/data/category-banks-ru data/category-banks-ru || true
           cp -r code/data/custom data/custom || true
+          cp -r code/data/custom-proxy data/custom-proxy || true
 
       - name: Build Russia blocklist
         run: |
@@ -98,7 +99,7 @@ jobs:
           go run main.go \
             --datapath=../data \
             --outputdir=../release \
-            --exportlists=category-ban-ru,category-ru,twitch,youtube,private,category-banks-ru,epicgames,riot,steam,xbox,tiktok,apple,microsoft,custom
+            --exportlists=category-ban-ru,category-ru,twitch,youtube,private,category-banks-ru,epicgames,riot,steam,xbox,tiktok,apple,microsoft,custom,custom-proxy
           cd ..
           ls -R
 
